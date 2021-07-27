@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
     
-<body>
+<body onload="init()">
+
 <h1>Hello World</h1>
 <p>I'm hosted with GitHub Pages.</p>
+<!-- Initialize a select button -->
+<select id="makeButton">
+    <option value="default" selected>Select Make </option>
+</select>
+<select id="fuelButton">
+    <option value="default" selected>Select Fuel Type </option>
+</select>
+<select id="cylButton">
+    <option value="default" selected>Select Number of Cylinders </option>
+</select>
+<div id="my_dataviz"><svg width=600 height=600>
+</svg></div>
+<script src="index.js"></script>
+<script>
+    async function init() {
+
+        data = await d3.csv("https://flunky.github.io/cars2017.csv");
+        main(data);
+    }
+</script>
+</script>
 </body>
 </html>
