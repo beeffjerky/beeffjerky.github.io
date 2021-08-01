@@ -162,6 +162,29 @@ async function main(data) {
             return xs.tickFormat(4,d3.format(",d"))(d)
     });
 
+    d3.select('svg')
+    .append('g').attr("class", "myXaxis")
+    .attr('transform',`translate(${marginWidth}, ${marginHeight})`)
+    .call(ya)
+    d3.select('svg')
+    .append('g')
+    .attr('transform',`translate(${marginWidth}, ${canHeight-marginHeight})`)
+    .call(xa)
+
+    colorScale.domain(fuelArray).range(["blue", "green", "pink", "brown", "orange"])
+
+    d3.select('svg')
+    .selectAll("myLegend")
+    .data(fuelArray)
+    .enter()
+      .append('g')
+      .append("text")
+        .attr('x', function(d,i){ return 100 + i*60})
+        .attr('y', 50)
+        .text(function(d) { return d; })
+        .style("fill", function(d){ return colorScale(d) })
+        .style("font-size", 15)
+   
     d3.select('svg').append("text")             
     .attr("transform",
           "translate(" + (canWidth/2) + " ," + 
@@ -175,10 +198,8 @@ async function main(data) {
       .attr("x",0 - (canHeight / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("AverageHighwayMPG");   
+      .text("AverageHighwayMPG");
 
-    
-    colorScale.domain(fuelArray).range(["blue", "green", "pink", "brown", "orange"])
     d3.select('svg')
     .attr('width', canWidth).attr('height', canHeight)
     .append('g').attr("id",'inplot')
@@ -202,14 +223,7 @@ async function main(data) {
     .attr('opacity', .8)
     .style("stroke", "black");
 
-    d3.select('svg')
-    .append('g').attr("class", "myXaxis")
-    .attr('transform',`translate(${marginWidth}, ${marginHeight})`)
-    .call(ya)
-    d3.select('svg')
-    .append('g')
-    .attr('transform',`translate(${marginWidth}, ${canHeight-marginHeight})`)
-    .call(xa)
+
 
     d3.select('svg').selectAll("circle")
     .transition()
