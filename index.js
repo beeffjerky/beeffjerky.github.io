@@ -171,7 +171,38 @@ async function main(data) {
     .attr('transform',`translate(${marginWidth}, ${canHeight-marginHeight})`)
     .call(xa)
 
-    colorScale.domain(fuelArray).range(["blue", "green", "pink", "brown", "orange"])
+    colorScale.domain(fuelArray).range(["blue", "orange", "green" ])
+
+    const annotations = [
+        {
+          note: { label: "Electric cars have better fuel efficency" },
+          x: 690,
+          y: 170,
+          dy: 100,
+          dx: -50,
+          type: d3.annotationCalloutCircle,
+          subject: { radius: 105, radiusPadding: 10 },
+          color: ["green"],
+        },
+
+        {
+            note: { label: "Diesel cars perform similarly to gas cars" },
+            x: 300,
+            y: 450,
+            dy: 100,
+            dx: 150,
+            type: d3.annotationCalloutCircle,
+            subject: { radius: 105, radiusPadding: 10 },
+            color: ["orange"],
+          },
+      ];
+      
+    const makeAnnotations = d3.annotation().annotations(annotations);
+
+    d3.select("svg")
+        .append("g")
+        .attr("class", "annotation-group")
+        .call(makeAnnotations)
 
     d3.select('svg')
     .selectAll("myLegend")
