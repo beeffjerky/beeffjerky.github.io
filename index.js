@@ -161,6 +161,22 @@ async function main(data) {
         .tickValues([10, 20, 50, 100]).tickFormat(function (d) {
             return xs.tickFormat(4,d3.format(",d"))(d)
     });
+
+    d3.select('svg').append("text")             
+    .attr("transform",
+          "translate(" + (canWidth/2) + " ," + 
+                         (canHeight - marginHeight + 30) + ")")
+    .style("text-anchor", "middle")
+    .text("AverageCityMPG");
+
+    d3.select('svg').append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 )
+      .attr("x",0 - (canHeight / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("AverageHighwayMPG");   
+
     
     colorScale.domain(fuelArray).range(["blue", "green", "pink", "brown", "orange"])
     d3.select('svg')
@@ -206,4 +222,8 @@ async function main(data) {
     .attr('width', canWidth).attr('height', canHeight)
     .append('g').attr("id",'outplot')
     .attr('transform','translate(50,50)')
+
+    d3.select('#outro').text(`In 2017 car manufacturers made cars of varying fuel efficiency. From the scatter plot, 
+    it can be seen that electric cars were extremely fuel efficient at the time and beat out the cars with other engine types.
+    Furthermore it is shown that gasoline and diesel cars perform similarly and engines with more cylinders as indicated by the circle radii perform worse`)
 }
