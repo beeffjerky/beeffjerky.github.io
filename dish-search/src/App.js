@@ -7,7 +7,7 @@ function App() {
 
   // Load dish list on first render
   useEffect(() => {
-    fetch('/chinese.txt')
+    fetch(process.env.PUBLIC_URL + '/chinese.txt')
       .then((res) => res.text())
       .then((text) => {
         const lines = text.split('\n').map(line => line.trim()).filter(Boolean);
