@@ -1,35 +1,48 @@
 [
     {
         "name": "Waterloo Star",
-        "address": "190 waterloo way",
+        "address": "5115 Spring Mountain Rd\nSte 103\nChinatown\nLas Vegas, NV 89146",
         "sentiment": 0.9,
         "stars": 4.5,
+        "mentions": 5000,
         "reviews": [
-            { 
+            {
                 "stars": 4.0,
-                "text": "this place has fried rice" 
-
+                "text": "this place has fried rice"
             },
-            { 
+            {
                 "stars": 3.9,
-                "text": "this place has fried rice"    
+                "text": "this place has fried rice"
             }
         ]
     },
     {
         "name": "Tian Fu",
-        "address": "1987 Northgate Seattle",
+        "address": "1901 S Signal Butte Rd\nSte 101\nMesa, AZ 85209",
         "sentiment": 0.8,
         "stars": 4.4,
+        "mentions": 5000,
         "reviews": [
-            { 
+            {
                 "stars": 4.0,
-                "text": "this place spicy fried rice" 
-
+                "text": "this place spicy fried rice"
             },
-            { 
+            {
                 "stars": 3.9,
-                "text": "this place oily fried rice"    
+                "text": "this place oily fried rice"
+            }
+        ]
+    },
+    {
+        "name": "1 Eastern Super Buffet",
+        "address": "1901 S Signal Butte Rd\nSte 101\nMesa, AZ 85209",
+        "stars": 3.5,
+        "sentiment": 0.9575,
+        "mentions": 1,
+        "reviews": [
+            {
+                "text": "Rand H. has gotten me curious about these buffets he loves so much so off we went to for another super lunch. Claire and I met up with Robyn N. and had a nice leisurely lunch.  \n\nThe location is a bit tricky.  It's on the side of LA Fitness so if you turn into the parking lot go past the front of LA Fitness and turn left.  It's in the corner of the strip mall.  Robyn beat us there so thankfully she texted me to tell me where it was otherwise I would have gone in circles.  My sense of direction is not so good.  :(\n\nEverything is super clean and the restaurant itself is nice.  The service was very good, our drinks were always full and plates clearned promptly.\n\nThe food was good but nothing to rave about, imo.  The egg roll was a tad bit greasy for me.  The lo mein was good, plain with some cabbage and carrots mixed in.  Fried rice was decent as well.  I enjoyed the coconut shrimp and the string beans had a nice flavor and cooked perfectly.  Nothing really jumped out at me as being outstanding.  There is also a sushi bar and I did have some California rolls which were fresh and good.  \n\nFor me, this was good but I'm not sure I would go back simply because it's a bit far from me.  Prices are on par with other buffets and the food is good.",
+                "stars": 3
             }
         ]
     }

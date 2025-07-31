@@ -7,13 +7,21 @@ function App() {
   const [selectedDish, setSelectedDish] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
   const [expandedRestaurant, setExpandedRestaurant] = useState(null);
-
+  const [lastKey, setLastKey] = useState(null);
+  const [loadingMore, setLoadingMore] = useState(false);
   // Load dish list
   useEffect(() => {
     fetch(process.env.PUBLIC_URL + '/dish_list.txt')
       .then(res => res.text())
       .then(text => {
-        const lines = text.split('\n').map(line => line.trim()).filter(Boolean);
+        const lines = text
+          .split('\n')
+          .map(line => line.trim())
+          .filter(Boolean)
+          .map(line => {
+            const [name, count] = line.split(',');
+            return { name: name.trim(), count: parseInt(count, 10) };
+          });
         setDishList(lines);
       });
   }, []);
@@ -22,24 +30,47 @@ function App() {
   useEffect(() => {
     if (!query) return setSuggestions([]);
     const filtered = dishList.filter(dish =>
-      dish.toLowerCase().includes(query.toLowerCase())
+      dish.name.toLowerCase().includes(query.toLowerCase())
     );
     setSuggestions(filtered.slice(0, 10));
   }, [query, dishList]);
 
-  // Handle dish selection
   const handleSelectDish = (dish) => {
     setQuery(dish);
     setSelectedDish(dish);
     setSuggestions([]);
     setExpandedRestaurant(null);
+    setLastKey(null);
+    setRestaurants([]);
 
-    // Load restaurant data and filter
-    fetch(process.env.PUBLIC_URL + '/example.json')
+    const pageSize = 10;
+    const url = `https://qiuyj33fo8.execute-api.us-east-2.amazonaws.com/dishsearch?dish=${encodeURIComponent(dish)}&size=${pageSize}`;
+
+    fetch(url)
       .then(res => res.json())
       .then(data => {
-        setRestaurants(data);
-      });
+        setRestaurants(data.results || []);
+        setLastKey(data.lastKey || null);
+      })
+      .catch(err => console.error("API error:", err));
+  };
+
+  const fetchNextPage = () => {
+    if (!lastKey || !selectedDish) return;
+
+    setLoadingMore(true);
+
+    const pageSize = 10;
+    const url = `https://qiuyj33fo8.execute-api.us-east-2.amazonaws.com/dishsearch?dish=${encodeURIComponent(selectedDish)}&size=${pageSize}&lastKey=${encodeURIComponent(lastKey)}`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setRestaurants(prev => [...prev, ...(data.results || [])]);
+        setLastKey(data.lastKey || null);
+      })
+      .catch(err => console.error("Pagination error:", err))
+      .finally(() => setLoadingMore(false));
   };
 
   const toggleRestaurant = (name) => {
@@ -48,8 +79,8 @@ function App() {
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
-      <h1>Dish Search</h1>
-
+      <h1>Chinese Dish Restaurant Suggestion Search</h1>
+      <h2>Type a Chinese dish and get a number of suggestions based on review sentiment. </h2>
       <input
         type="text"
         placeholder="Type a dish name..."
@@ -78,7 +109,7 @@ function App() {
           {suggestions.map((dish, idx) => (
             <li
               key={idx}
-              onClick={() => handleSelectDish(dish)}
+              onClick={() => handleSelectDish(dish.name)}
               style={{
                 padding: '0.5rem',
                 cursor: 'pointer',
@@ -87,7 +118,7 @@ function App() {
               onMouseEnter={(e) => e.target.style.background = '#f0f0f0'}
               onMouseLeave={(e) => e.target.style.background = 'white'}
             >
-              {dish}
+              {dish.name} ({dish.count})
             </li>
           ))}
         </ul>
@@ -112,7 +143,7 @@ function App() {
                 >
                   <strong>{rest.name}</strong><br />
                   📍 {rest.address}<br />
-                  ⭐ {rest.stars} | 😊 Sentiment: {rest.sentiment}
+                  ⭐ {rest.stars} | 😊 Sentiment: {rest.sentiment.toFixed(4)} | 📊 Dish Mentions: {rest.mentions}
                 </div>
                 {expandedRestaurant === rest.name && (
   <div style={{ marginTop: '0.5rem', paddingLeft: '1rem' }}>
@@ -128,6 +159,22 @@ function App() {
 )}
               </li>
             ))}
+            {lastKey && (
+              <button
+                onClick={fetchNextPage}
+                style={{
+                  marginTop: '1rem',
+                  padding: '0.5rem 1rem',
+                  fontSize: '1rem',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  cursor: 'pointer'
+                }}
+                disabled={loadingMore}
+              >
+                {loadingMore ? "Loading..." : "Load More"}
+              </button>
+            )}
           </ul>
         </div>
       )}
