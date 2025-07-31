@@ -1,0 +1,36 @@
+[
+    {
+        "name": "Waterloo Star",
+        "address": "190 waterloo way",
+        "sentiment": 0.9,
+        "stars": 4.5,
+        "reviews": [
+            { 
+                "stars": 4.0,
+                "text": "this place has fried rice" 
+
+            },
+            { 
+                "stars": 3.9,
+                "text": "this place has fried rice"    
+            }
+        ]
+    },
+    {
+        "name": "Tian Fu",
+        "address": "1987 Northgate Seattle",
+        "sentiment": 0.8,
+        "stars": 4.4,
+        "reviews": [
+            { 
+                "stars": 4.0,
+                "text": "this place spicy fried rice" 
+
+            },
+            { 
+                "stars": 3.9,
+                "text": "this place oily fried rice"    
+            }
+        ]
+    }
+]
